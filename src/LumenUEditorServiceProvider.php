@@ -1,4 +1,4 @@
-<?php namespace Stevenyangecho\UEditor;
+<?php namespace Pangdongxing\UEditor;
 
 
 use Illuminate\Support\ServiceProvider;

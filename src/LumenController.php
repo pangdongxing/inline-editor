@@ -1,11 +1,10 @@
-<?php namespace Stevenyangecho\UEditor;
+<?php namespace Pangdongxing\UEditor;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use Stevenyangecho\UEditor\Uploader\UploadScrawl;
-use Stevenyangecho\UEditor\Uploader\UploadFile;
-use Stevenyangecho\UEditor\Uploader\UploadCatch;
+use Pangdongxing\UEditor\Uploader\UploadScrawl;
+use Pangdongxing\UEditor\Uploader\UploadFile;
+use Pangdongxing\UEditor\Uploader\UploadCatch;
 
 class LumenController extends BaseController
 {

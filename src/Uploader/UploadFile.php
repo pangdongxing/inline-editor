@@ -1,4 +1,4 @@
-<?php namespace Stevenyangecho\UEditor\Uploader;
+<?php namespace Pangdongxing\UEditor\Uploader;
 
 
 /**
@@ -8,7 +8,7 @@
  *
  * 文件/图像普通上传
  *
- * @package Stevenyangecho\UEditor\Uploader
+ * @package Pangdongxing\UEditor\Uploader
  */
 class UploadFile  extends Upload{
 
