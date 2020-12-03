@@ -1,0 +1,30 @@
+{
+  "name": "pangdongxing/lumen-ueditor",
+  "description": "UEditor for lumen",
+  "keywords": [
+    "lumen",
+    "ueditor",
+    "pangdongxing"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "pangdongxing",
+      "email": "756661464@qq.com"
+    }
+  ],
+
+  "require": {
+    "php": ">=7.0.0",
+    "ext-fileinfo": "*",
+    "laravel/lumen-framework": "^8.0",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Stevenyangecho\\UEditor\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
