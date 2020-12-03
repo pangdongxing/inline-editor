@@ -11,7 +11,13 @@ class LumenController extends BaseController
 
     public function __construct()
     {
-
+        if(app()->environment() == 'local') {
+            header('Content-Type: text/html;charset=utf-8');
+            header('Access-Control-Allow-Origin:*'); // *代表允许任何网址请求
+            header('Access-Control-Allow-Methods:POST,GET,OPTIONS,DELETE'); // 允许请求的类型
+            header('Access-Control-Allow-Credentials: true'); // 设置是否允许发送 cookies
+            header('Access-Control-Allow-Headers: Content-Type,Content-Length,Accept-Encoding,X-Requested-with, Origin'); // 设置允许自定义请求头的字段
+        }
     }
 
 
@@ -66,13 +72,9 @@ class LumenController extends BaseController
                     'fieldName' => $config['fileFieldName'],
                 );
                 $result = with(new UploadFile($upConfig, $request))->upload();
-
                 break;
-
             /* 列出图片 */
             case 'listimage':
-
-
                 if (config('UEditorUpload.core.mode') == 'local') {
                     $result = with(new Lists(
                         $config['imageManagerAllowFiles'],
@@ -86,7 +88,6 @@ class LumenController extends BaseController
                         $config['imageManagerListPath'],
                         $request))->getList();
                 }
-
 
                 break;
             /* 列出文件 */
@@ -104,12 +105,9 @@ class LumenController extends BaseController
                         $config['imageManagerListPath'],
                         $request))->getList();
                 }
-
                 break;
-
             /* 抓取远程文件 */
             case 'catchimage':
-
                 $upConfig = array(
                     "pathFormat" => $config['catcherPathFormat'],
                     "maxSize" => $config['catcherMaxSize'],
@@ -123,14 +121,13 @@ class LumenController extends BaseController
                 foreach ($sources as $imgUrl) {
                     $upConfig['imgUrl'] = $imgUrl;
                     $info = with(new UploadCatch($upConfig, $request))->upload();
-
                     array_push($list, array(
                         "state" => $info["state"],
                         "url" => $info["url"],
                         "size" => $info["size"],
                         "title" => htmlspecialchars($info["title"]),
                         "original" => htmlspecialchars($info["original"]),
-                        "source" => htmlspecialchars($imgUrl)
+                        "source" => $imgUrl
                     ));
                 }
                 $result = [
@@ -146,7 +143,7 @@ class LumenController extends BaseController
             //如果是IE 特殊处理header
             return response($result,200)->header('Content-Type', 'text/html;charset=utf-8');
         } else{
-            return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE)->header('Content-Type', 'text/json;charset=utf-8');
         }
 
     }

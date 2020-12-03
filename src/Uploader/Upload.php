@@ -1,5 +1,6 @@
 <?php namespace Pangdongxing\UEditor\Uploader;
 
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
@@ -19,21 +20,22 @@ abstract class Upload
     protected $fileName; //新文件名
     protected $fullName; //完整文件名,即从当前配置目录开始的URL
     protected $filePath; //完整文件名,即从当前配置目录开始的URL
+    protected $fileUrl; //文件url
     protected $fileSize; //文件大小
     protected $fileType; //文件类型
     protected $stateInfo; //上传状态信息,
     protected $stateMap; //上传状态映射表，国际化用户需考虑此处数据的国际化
     abstract function doUpload(); //抽象方法,上传核心方法
 
-    public function __construct(array $config, $request)
+    public function __construct(array $config, Request $request)
     {
         $this->config = $config;
         $this->request = $request;
         $this->fileField = $this->config['fieldName'];
         if(isset($config['allowFiles'])){
-            $this->allowFiles=$config['allowFiles'];
+            $this->allowFiles = $config['allowFiles'];
         }else{
-            $this->allowFiles=[];
+            $this->allowFiles = [];
         }
 
         $stateMap = [
@@ -57,7 +59,7 @@ abstract class Upload
             "ERROR_HTTP_CONTENTTYPE" =>  trans("UEditor::upload.ERROR_HTTP_CONTENTTYPE"),
             "ERROR_UNKNOWN_MODE" =>  trans("UEditor::upload.ERROR_UNKNOWN_MODE"),
         ];
-        $this->stateMap=$stateMap;
+        $this->stateMap = $stateMap;
 
     }
 
@@ -133,8 +135,7 @@ abstract class Upload
             $format = preg_replace("/\{rand\:[\d]*\}/i", substr($randNum, 0, $matches[1]), $format);
         }
 
-        $ext = $this->getFileExt();
-        return $format . $ext;
+        return $format . $this->fileType;
     }
 
     /**
@@ -169,7 +170,7 @@ abstract class Upload
     {
         return array(
             "state" => $this->stateInfo,
-            "url" => $this->fullName,
+            "url" => $this->fileUrl,
             "title" => $this->fileName,
             "original" => $this->oriName,
             "type" => $this->fileType,

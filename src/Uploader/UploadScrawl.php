@@ -19,18 +19,13 @@ class UploadScrawl extends Upload
             return false;
         }
 
-        // $this->file = $file;
-
         $this->oriName = $this->config['oriName'];
 
         $this->fileSize = strlen($img);
         $this->fileType = $this->getFileExt();
-
         $this->fullName = $this->getFullName();
-
-
         $this->filePath = $this->getFilePath();
-
+        $this->fileUrl = config('UEditorUpload.core.cdn.url') . $this->fullName;
         $this->fileName = basename($this->filePath);
         $dirname = dirname($this->filePath);
 
@@ -41,7 +36,7 @@ class UploadScrawl extends Upload
         }
 
 
-        if(config('UEditorUpload.core.mode')=='local'){
+        if(config('UEditorUpload.core.mode') == 'local'){
             //创建目录失败
             if (!file_exists($dirname) && !mkdir($dirname, 0777, true)) {
                 $this->stateInfo = $this->getStateInfo("ERROR_CREATE_DIR");
@@ -59,7 +54,7 @@ class UploadScrawl extends Upload
                 return false;
             }
 
-        }else{
+        } else {
             $this->stateInfo = $this->getStateInfo("ERROR_UNKNOWN_MODE");
             return false;
         }

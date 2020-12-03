@@ -15,7 +15,6 @@ class UploadFile  extends Upload{
     public function doUpload()
     {
 
-
         $file = $this->request->file($this->fileField);
         if (empty($file)) {
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_NOT_FOUND");
@@ -24,21 +23,15 @@ class UploadFile  extends Upload{
         if (!$file->isValid()) {
             $this->stateInfo = $this->getStateInfo($file->getError());
             return false;
-
         }
 
         $this->file = $file;
-
         $this->oriName = $this->file->getClientOriginalName();
-
         $this->fileSize = $this->file->getSize();
         $this->fileType = $this->getFileExt();
-
         $this->fullName = $this->getFullName();
-
-
         $this->filePath = $this->getFilePath();
-
+        $this->fileUrl = config('UEditorUpload.core.cdn.url') . $this->fullName;
         $this->fileName = basename($this->filePath);
 
 
@@ -53,10 +46,9 @@ class UploadFile  extends Upload{
             return false;
         }
 
-        if(config('UEditorUpload.core.mode')=='local'){
+        if(config('UEditorUpload.core.mode') == 'local'){
             try {
                 $this->file->move(dirname($this->filePath), $this->fileName);
-
                 $this->stateInfo = $this->stateMap[0];
 
             } catch (FileException $exception) {
@@ -64,17 +56,7 @@ class UploadFile  extends Upload{
                 return false;
             }
 
-        }else if(config('UEditorUpload.core.mode')=='storage'){
-            //上传文件到oss
-            $folder = config('UEditorUpload.core.storage.folder');
-            if(config('UEditorUpload.core.storage.classifyByFileType')){
-                $folder .='/'. str_replace('.','',$this->fileType);
-            }
-            $path = \Storage::putFile($folder, $this->file);
-            $this->fullName = \Storage::url($path);
-            $this->stateInfo=$this->stateMap[0];
-
-        }else{
+        } else {
             $this->stateInfo = $this->getStateInfo("ERROR_UNKNOWN_MODE");
             return false;
         }
