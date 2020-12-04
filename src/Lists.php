@@ -18,7 +18,7 @@ class Lists
         $start = $this->request->get('start', 0);
         $end = $start + $size;
         /* 获取文件列表 */
-        $path = cdn_resource_path()  .'/'. ltrim($this->path,'/');
+        $path = cdn_resource_path() . ltrim($this->path,'/');
 
         $files = $this->getfiles($path, $this->allowFiles);
         if (!count($files)) {
@@ -67,8 +67,8 @@ class Lists
                 } else {
                     if (preg_match("/\.(".$allowFiles.")$/i", $file)) {
                         $files[] = array(
-                            'url'=> str_replace(cdn_resource_path(), '', $path2),
-                            'mtime'=> filemtime($path2)
+                            'url' => str_replace(cdn_resource_path(), config('UEditorUpload.core.cdn.url') . '/', $path2),
+                            'mtime' => filemtime($path2)
                         );
                     }
                 }
