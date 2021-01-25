@@ -1,6 +1,5 @@
 <?php namespace Pangdongxing\UEditor\Uploader;
 
-use Pangdongxing\UEditor\Uploader\Upload;
 
 /**
  * Class UploadCatch
@@ -65,7 +64,6 @@ class UploadCatch  extends Upload {
             curl_setopt($ch, CURLOPT_NOBODY, 0); // 只取body头
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             $img = curl_exec($ch);
-            $httpinfo = curl_getinfo($ch);
 
             curl_close($ch);
 

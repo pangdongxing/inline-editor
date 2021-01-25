@@ -20,7 +20,10 @@ class LumenController extends BaseController
         }
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Laravel\Lumen\Http\ResponseFactory
+     */
     public function server(Request $request)
     {
         $config = config('UEditorUpload.upload');
@@ -147,6 +150,5 @@ class LumenController extends BaseController
         }
 
     }
-
 
 }

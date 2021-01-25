@@ -3,6 +3,13 @@
 
 class Lists
 {
+
+    private $allowFiles;
+    private $listSize;
+    private $path;
+    private $request;
+
+
     public function __construct($allowFiles, $listSize, $path, $request)
     {
         $this->allowFiles = substr(str_replace(".", "|", join("", $allowFiles)), 1);
@@ -20,7 +27,7 @@ class Lists
         /* 获取文件列表 */
         $path = cdn_resource_path() . ltrim($this->path,'/');
 
-        $files = $this->getfiles($path, $this->allowFiles);
+        $files = $this->getFiles($path, $this->allowFiles);
         if (!count($files)) {
             return [
                 "state" => "no match file",
@@ -38,32 +45,32 @@ class Lists
 
 
         /* 返回数据 */
-        $result = [
+        return [
             "state" => "SUCCESS",
             "list" => $list,
             "start" => $start,
             "total" => count($files)
         ];
-
-        return $result;
     }
     /**
      * 遍历获取目录下的指定类型的文件
      * @param $path
+     * @param $allowFiles
      * @param array $files
      * @return array
      */
-    protected function  getfiles($path, $allowFiles, &$files = array())
+    protected function getFiles($path, $allowFiles, &$files = array())
     {
 
         if (!is_dir($path)) return null;
+        $files = [];
         if(substr($path, strlen($path) - 1) != '/') $path .= '/';
         $handle = opendir($path);
         while (false !== ($file = readdir($handle))) {
             if ($file != '.' && $file != '..') {
                 $path2 = $path . $file;
                 if (is_dir($path2)) {
-                    $this->getfiles($path2, $allowFiles, $files);
+                    $this->getFiles($path2, $allowFiles, $files);
                 } else {
                     if (preg_match("/\.(".$allowFiles.")$/i", $file)) {
                         $files[] = array(

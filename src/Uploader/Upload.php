@@ -1,7 +1,6 @@
 <?php namespace Pangdongxing\UEditor\Uploader;
 
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * Abstract Class Upload
@@ -25,6 +24,17 @@ abstract class Upload
     protected $fileType; //文件类型
     protected $stateInfo; //上传状态信息,
     protected $stateMap; //上传状态映射表，国际化用户需考虑此处数据的国际化
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @var mixed
+     */
+    private $allowFiles;
+
     abstract function doUpload(); //抽象方法,上传核心方法
 
     public function __construct(array $config, Request $request)
@@ -64,12 +74,8 @@ abstract class Upload
     }
 
     /**
-     *
-     *
-     *
      * @return array
      */
-
     public function upload()
     {
         $this->doUpload();

@@ -1,6 +1,8 @@
 <?php namespace Pangdongxing\UEditor\Uploader;
 
 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 /**
  *
  *

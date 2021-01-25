@@ -1,6 +1,5 @@
 <?php namespace Pangdongxing\UEditor\Uploader;
 
-use Pangdongxing\UEditor\Uploader\Upload;
 
 /**
  * Class UploadScrawl
@@ -9,9 +8,12 @@ use Pangdongxing\UEditor\Uploader\Upload;
  */
 class UploadScrawl extends Upload
 {
+
+    /**
+     * @return bool
+     */
     public function doUpload()
     {
-
         $base64Data = $this->request->get($this->fileField);
         $img = base64_decode($base64Data);
         if (!$img) {
@@ -58,6 +60,7 @@ class UploadScrawl extends Upload
             $this->stateInfo = $this->getStateInfo("ERROR_UNKNOWN_MODE");
             return false;
         }
+        return true;
     }
 
 
